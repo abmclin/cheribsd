@@ -443,7 +443,7 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	/* mprotect */
 	case 74: {
 		struct mprotect_args *p = params;
-		uarg[0] = (__cheri_addr intptr_t) p->addr; /* void * __capability */
+		uarg[0] = (__cheri_addr intptr_t) p->addr; /* const void * __capability */
 		uarg[1] = p->len; /* size_t */
 		iarg[2] = p->prot; /* int */
 		*n_args = 3;
@@ -2542,7 +2542,7 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	/* mmap */
 	case 477: {
 		struct mmap_args *p = params;
-		uarg[0] = (__cheri_addr intptr_t) p->addr; /* caddr_t */
+		uarg[0] = (__cheri_addr intptr_t) p->addr; /* void * __capability */
 		uarg[1] = p->len; /* size_t */
 		iarg[2] = p->prot; /* int */
 		iarg[3] = p->flags; /* int */
@@ -3951,7 +3951,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	case 74:
 		switch(ndx) {
 		case 0:
-			p = "userland void * __capability";
+			p = "userland const void * __capability";
 			break;
 		case 1:
 			p = "size_t";
@@ -7424,7 +7424,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	case 477:
 		switch(ndx) {
 		case 0:
-			p = "caddr_t";
+			p = "userland void * __capability";
 			break;
 		case 1:
 			p = "size_t";
@@ -10221,7 +10221,7 @@ systrace_return_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	/* mmap */
 	case 477:
 		if (ndx == 0 || ndx == 1)
-			p = "caddr_t";
+			p = "*";
 		break;
 	/* lseek */
 	case 478:
