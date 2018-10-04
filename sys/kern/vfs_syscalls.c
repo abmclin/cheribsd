@@ -149,10 +149,10 @@ sys_sync(struct thread *td, struct sync_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct quotactl_args {
-	char *path;
+	char * __capability path;
 	int cmd;
 	int uid;
-	caddr_t arg;
+	void * __capability arg;
 };
 #endif
 int
@@ -288,8 +288,8 @@ out:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct statfs_args {
-	char *path;
-	struct statfs *buf;
+	char * __capability path;
+	struct statfs * __capability buf;
 };
 #endif
 int
@@ -341,7 +341,7 @@ kern_statfs(struct thread *td, const char * __capability path,
 #ifndef _SYS_SYSPROTO_H_
 struct fstatfs_args {
 	int fd;
-	struct statfs *buf;
+	struct statfs * __capability buf;
 };
 #endif
 int
@@ -395,7 +395,7 @@ kern_fstatfs(struct thread *td, int fd, struct statfs *buf)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct getfsstat_args {
-	struct statfs *buf;
+	struct statfs * __capability buf;
 	long bufsize;
 	int mode;
 };
@@ -942,7 +942,7 @@ kern_chdir(struct thread *td, const char * __CAPABILITY path,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct chroot_args {
-	char	*path;
+	char	* __capability path;
 };
 #endif
 int
@@ -1049,7 +1049,7 @@ flags_to_rights(int flags, cap_rights_t *rightsp)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct open_args {
-	char	*path;
+	char	* __capability path;
 	int	flags;
 	int	mode;
 };
@@ -1065,7 +1065,7 @@ sys_open(struct thread *td, struct open_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct openat_args {
 	int	fd;
-	char	*path;
+	char	* __capability path;
 	int	flag;
 	int	mode;
 };
@@ -1243,7 +1243,7 @@ ocreat(struct thread *td, struct ocreat_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct mknodat_args {
 	int	fd;
-	char	*path;
+	char	* __capability path;
 	mode_t	mode;
 	dev_t	dev;
 };
@@ -1378,7 +1378,7 @@ restart:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct mkfifo_args {
-	char	*path;
+	char	* __capability path;
 	int	mode;
 };
 #endif
@@ -1393,7 +1393,7 @@ sys_mkfifo(struct thread *td, struct mkfifo_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct mkfifoat_args {
 	int	fd;
-	char	*path;
+	char	* __capability path;
 	mode_t	mode;
 };
 #endif
@@ -1464,8 +1464,8 @@ out:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct link_args {
-	char	*path;
-	char	*to;
+	char	* __capability path;
+	char	* __capability to;
 };
 #endif
 int
@@ -1479,9 +1479,9 @@ sys_link(struct thread *td, struct link_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct linkat_args {
 	int	fd1;
-	char	*path1;
+	char	* __capability path1;
 	int	fd2;
-	char	*path2;
+	char	* __capability path2;
 	int	flag;
 };
 #endif
@@ -1629,8 +1629,8 @@ again:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct symlink_args {
-	char	*path;
-	char	*link;
+	char	* __capability path;
+	char	* __capability link;
 };
 #endif
 int
@@ -1643,9 +1643,9 @@ sys_symlink(struct thread *td, struct symlink_args *uap)
 
 #ifndef _SYS_SYSPROTO_H_
 struct symlinkat_args {
-	char	*path;
+	char	* __capability path;
 	int	fd;
-	char	*path2;
+	char	* __capability path2;
 };
 #endif
 int
@@ -1730,7 +1730,7 @@ out:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct undelete_args {
-	char *path;
+	char * __capability path;
 };
 #endif
 int
@@ -1784,7 +1784,7 @@ restart:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct unlink_args {
-	char	*path;
+	char	* __capability path;
 };
 #endif
 int
@@ -1798,7 +1798,7 @@ sys_unlink(struct thread *td, struct unlink_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct unlinkat_args {
 	int	fd;
-	char	*path;
+	char	* __capability path;
 	int	flag;
 };
 #endif
@@ -1984,7 +1984,7 @@ vn_access(struct vnode *vp, int user_flags, struct ucred *cred,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct access_args {
-	char	*path;
+	char	* __capability path;
 	int	amode;
 };
 #endif
@@ -1999,7 +1999,7 @@ sys_access(struct thread *td, struct access_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct faccessat_args {
 	int	dirfd;
-	char	*path;
+	char	* __capability path;
 	int	amode;
 	int	flag;
 }
@@ -2063,7 +2063,7 @@ out:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct eaccess_args {
-	char	*path;
+	char	* __capability path;
 	int	amode;
 };
 #endif
@@ -2306,8 +2306,8 @@ freebsd11_fstatat(struct thread *td, struct freebsd11_fstatat_args* uap)
 #ifndef _SYS_SYSPROTO_H_
 struct fstatat_args {
 	int	fd;
-	char	*path;
-	struct stat	*buf;
+	char	* __capability path;
+	struct stat	* __capability buf;
 	int	flag;
 }
 #endif
@@ -2455,7 +2455,7 @@ freebsd11_nlstat(struct thread *td, struct freebsd11_nlstat_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct pathconf_args {
-	char	*path;
+	char	* __capability path;
 	int	name;
 };
 #endif
@@ -2474,7 +2474,7 @@ sys_pathconf(struct thread *td, struct pathconf_args *uap)
 
 #ifndef _SYS_SYSPROTO_H_
 struct lpathconf_args {
-	char	*path;
+	char	* __capability path;
 	int	name;
 };
 #endif
@@ -2514,8 +2514,8 @@ kern_pathconf(struct thread *td, const char * __capability path,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct readlink_args {
-	char	*path;
-	char	*buf;
+	char	* __capability path;
+	char	* __capability buf;
 	size_t	count;
 };
 #endif
@@ -2531,8 +2531,8 @@ sys_readlink(struct thread *td, struct readlink_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct readlinkat_args {
 	int	fd;
-	char	*path;
-	char	*buf;
+	char	* __capability path;
+	char	* __capability buf;
 	size_t	bufsize;
 };
 #endif
@@ -2638,7 +2638,7 @@ setfflags(struct thread *td, struct vnode *vp, u_long flags)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct chflags_args {
-	const char *path;
+	const char * __capability path;
 	u_long	flags;
 };
 #endif
@@ -2653,7 +2653,7 @@ sys_chflags(struct thread *td, struct chflags_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct chflagsat_args {
 	int	fd;
-	const char *path;
+	const char * __capability path;
 	u_long	flags;
 	int	atflag;
 }
@@ -2662,14 +2662,13 @@ int
 sys_chflagsat(struct thread *td, struct chflagsat_args *uap)
 {
 	int fd = uap->fd;
-	const char *path = uap->path;
 	u_long flags = uap->flags;
 	int atflag = uap->atflag;
 
 	if (atflag & ~AT_SYMLINK_NOFOLLOW)
 		return (EINVAL);
 
-	return (kern_chflagsat(td, fd, __USER_CAP_STR(path), UIO_USERSPACE,
+	return (kern_chflagsat(td, fd, __USER_CAP_STR(uap->path), UIO_USERSPACE,
 	    flags, atflag));
 }
 
@@ -2678,7 +2677,7 @@ sys_chflagsat(struct thread *td, struct chflagsat_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct lchflags_args {
-	const char *path;
+	const char * __capability path;
 	u_long flags;
 };
 #endif
@@ -2770,7 +2769,7 @@ setfmode(struct thread *td, struct ucred *cred, struct vnode *vp, int mode)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct chmod_args {
-	char	*path;
+	char	* __capability path;
 	int	mode;
 };
 #endif
@@ -2785,7 +2784,7 @@ sys_chmod(struct thread *td, struct chmod_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct fchmodat_args {
 	int	dirfd;
-	char	*path;
+	char	* __capability path;
 	mode_t	mode;
 	int	flag;
 }
@@ -2795,13 +2794,12 @@ sys_fchmodat(struct thread *td, struct fchmodat_args *uap)
 {
 	int flag = uap->flag;
 	int fd = uap->fd;
-	char *path = uap->path;
 	mode_t mode = uap->mode;
 
 	if (flag & ~AT_SYMLINK_NOFOLLOW)
 		return (EINVAL);
 
-	return (kern_fchmodat(td, fd, __USER_CAP_STR(path), UIO_USERSPACE, mode,
+	return (kern_fchmodat(td, fd, __USER_CAP_STR(uap->path), UIO_USERSPACE, mode,
 	    flag));
 }
 
@@ -2810,7 +2808,7 @@ sys_fchmodat(struct thread *td, struct fchmodat_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct lchmod_args {
-	char	*path;
+	char	* __capability path;
 	int	mode;
 };
 #endif
@@ -2900,7 +2898,7 @@ setfown(struct thread *td, struct ucred *cred, struct vnode *vp, uid_t uid,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct chown_args {
-	char	*path;
+	char	* __capability path;
 	int	uid;
 	int	gid;
 };
@@ -2916,7 +2914,7 @@ sys_chown(struct thread *td, struct chown_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct fchownat_args {
 	int fd;
-	const char * path;
+	const char * __capability path;
 	uid_t uid;
 	gid_t gid;
 	int flag;
@@ -2960,7 +2958,7 @@ kern_fchownat(struct thread *td, int fd, const char * __capability path,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct lchown_args {
-	char	*path;
+	char	* __capability path;
 	int	uid;
 	int	gid;
 };
@@ -3123,8 +3121,8 @@ setutimes(struct thread *td, struct vnode *vp,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct utimes_args {
-	char	*path;
-	struct	timeval *tptr;
+	char	* __capability path;
+	struct	timeval * __capability tptr;
 };
 #endif
 int
@@ -3138,8 +3136,8 @@ sys_utimes(struct thread *td, struct utimes_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct futimesat_args {
 	int fd;
-	const char * path;
-	const struct timeval * times;
+	const char * __capability path;
+	const struct timeval * __capability times;
 };
 #endif
 int
@@ -3178,8 +3176,8 @@ kern_utimesat(struct thread *td, int fd,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct lutimes_args {
-	char	*path;
-	struct	timeval *tptr;
+	char	* __capability path;
+	struct	timeval * __capability tptr;
 };
 #endif
 int
@@ -3216,7 +3214,7 @@ kern_lutimes(struct thread *td,
 #ifndef _SYS_SYSPROTO_H_
 struct futimes_args {
 	int	fd;
-	struct	timeval *tptr;
+	struct	timeval * __capability tptr;
 };
 #endif
 int
@@ -3333,7 +3331,7 @@ kern_utimensat(struct thread *td, int fd,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct truncate_args {
-	char	*path;
+	char	* __capability path;
 	int	pad;
 	off_t	length;
 };
@@ -3494,8 +3492,8 @@ sys_fdatasync(struct thread *td, struct fdatasync_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct rename_args {
-	char	*from;
-	char	*to;
+	char	* __capability from;
+	char	* __capability to;
 };
 #endif
 int
@@ -3510,9 +3508,9 @@ sys_rename(struct thread *td, struct rename_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct renameat_args {
 	int	oldfd;
-	char	*old;
+	char	* __capability old;
 	int	newfd;
-	char	*new;
+	char	* __capability new;
 };
 #endif
 int
@@ -3660,7 +3658,7 @@ out1:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct mkdir_args {
-	char	*path;
+	char	* __capability path;
 	int	mode;
 };
 #endif
@@ -3675,7 +3673,7 @@ sys_mkdir(struct thread *td, struct mkdir_args *uap)
 #ifndef _SYS_SYSPROTO_H_
 struct mkdirat_args {
 	int	fd;
-	char	*path;
+	char	* __capability path;
 	mode_t	mode;
 };
 #endif
@@ -3754,7 +3752,7 @@ out:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct rmdir_args {
-	char	*path;
+	char	* __capability path;
 };
 #endif
 int
@@ -4136,7 +4134,7 @@ sys_umask(struct thread *td, struct umask_args *uap)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct revoke_args {
-	char	*path;
+	char	* __capability path;
 };
 #endif
 int
@@ -4227,8 +4225,8 @@ getvnode(struct thread *td, int fd, cap_rights_t *rightsp, struct file **fpp)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct lgetfh_args {
-	char	*fname;
-	fhandle_t *fhp;
+	char	* __capability fname;
+	fhandle_t * __capability fhp;
 };
 #endif
 int
@@ -4241,8 +4239,8 @@ sys_lgetfh(struct thread *td, struct lgetfh_args *uap)
 
 #ifndef _SYS_SYSPROTO_H_
 struct getfh_args {
-	char	*fname;
-	fhandle_t *fhp;
+	char	* __capability fname;
+	fhandle_t * __capability fhp;
 };
 #endif
 int
@@ -4290,7 +4288,7 @@ kern_getfh(struct thread *td, const char * __capability fname,
  */
 #ifndef _SYS_SYSPROTO_H_
 struct fhopen_args {
-	const struct fhandle *u_fhp;
+	const struct fhandle * __capability u_fhp;
 	int flags;
 };
 #endif
@@ -4382,8 +4380,8 @@ bad:
  */
 #ifndef _SYS_SYSPROTO_H_
 struct fhstat_args {
-	struct fhandle *u_fhp;
-	struct stat *sb;
+	struct fhandle * __capability u_fhp;
+	struct stat * __capability sb;
 };
 #endif
 int
@@ -4437,8 +4435,8 @@ kern_fhstat(struct thread *td, struct fhandle fh, struct stat *sb)
  */
 #ifndef _SYS_SYSPROTO_H_
 struct fhstatfs_args {
-	struct fhandle *u_fhp;
-	struct statfs *buf;
+	struct fhandle * __capability u_fhp;
+	struct statfs * __capability buf;
 };
 #endif
 int
