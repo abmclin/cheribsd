@@ -346,7 +346,7 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 		struct ioctl_args *p = params;
 		iarg[0] = p->fd; /* int */
 		uarg[1] = p->com; /* u_long */
-		uarg[2] = (__cheri_addr intptr_t) p->data; /* caddr_t */
+		uarg[2] = (__cheri_addr intptr_t) p->data; /* void * __capability */
 		*n_args = 3;
 		break;
 	}
@@ -3804,7 +3804,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 			p = "u_long";
 			break;
 		case 2:
-			p = "caddr_t";
+			p = "userland void * __capability";
 			break;
 		default:
 			break;

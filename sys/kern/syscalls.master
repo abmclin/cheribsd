@@ -198,7 +198,7 @@
 				    sigaltstack *ss, \
 				    _Out_opt_ struct sigaltstack *oss); }
 54	AUE_IOCTL	STD	{ int ioctl(int fd, u_long com, \
-				    _Inout_opt_ caddr_t data); }
+				    _Inout_opt_ void *data); }
 55	AUE_REBOOT	STD	{ int reboot(int opt); }
 56	AUE_REVOKE	STD	{ int revoke(_In_z_ char *path); }
 57	AUE_SYMLINK	STD	{ int symlink(_In_z_ char *path, \
