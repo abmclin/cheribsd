@@ -271,7 +271,7 @@
 89	AUE_GETDTABLESIZE	STD	{ int getdtablesize(void); }
 90	AUE_DUP2	STD	{ int dup2(u_int from, u_int to); }
 91	AUE_NULL	UNIMPL	getdopt
-92	AUE_FCNTL	STD	{ int fcntl(int fd, int cmd, long arg); }
+92	AUE_FCNTL	STD	{ int fcntl(int fd, int cmd, intcap_t arg); }
 ; XXX should be	{ int fcntl(int fd, int cmd, ...); }
 ; but we're not ready for varargs.
 93	AUE_SELECT	STD	{ int select(int nd, \
