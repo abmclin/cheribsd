@@ -289,7 +289,7 @@ systrace_args(int sysnum, void *params, uint64_t *uarg, int *n_args)
 	/* profil */
 	case 44: {
 		struct profil_args *p = params;
-		uarg[0] = (__cheri_addr intptr_t) p->samples; /* caddr_t */
+		uarg[0] = (__cheri_addr intptr_t) p->samples; /* void * __capability */
 		uarg[1] = p->size; /* size_t */
 		uarg[2] = p->offset; /* size_t */
 		uarg[3] = p->scale; /* u_int */
@@ -3711,7 +3711,7 @@ systrace_entry_setargdesc(int sysnum, int ndx, char *desc, size_t descsz)
 	case 44:
 		switch(ndx) {
 		case 0:
-			p = "caddr_t";
+			p = "userland void * __capability";
 			break;
 		case 1:
 			p = "size_t";

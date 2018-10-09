@@ -176,7 +176,7 @@
 42	AUE_PIPE	COMPAT10	{ int pipe(void); }
 43	AUE_GETEGID	STD	{ gid_t getegid(void); }
 44	AUE_PROFILE	STD	{ int profil( \
-				    _Out_writes_bytes_(size) caddr_t samples, \
+				    _Out_writes_bytes_(size) void *samples, \
 				    size_t size, size_t offset, u_int scale); }
 45	AUE_KTRACE	STD	{ int ktrace(_In_z_ const char *fname, \
 				    int ops, int facs, int pid); }
