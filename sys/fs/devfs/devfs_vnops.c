@@ -82,12 +82,13 @@ static struct fileops devfs_ops_f;
 #include <vm/vm_extern.h>
 #include <vm/vm_object.h>
 
-#ifdef COMPAT_CHERIABI
-struct fiodgname_arg_c {
+#ifdef COMPAT_FREEBSD64
+/* XXX-AM: fix for freebsd64 */
+struct fiodgname_arg64 {
 	int		len;
 	void * __capability buf;
 };
-#define FIODGNAME_C	_IOC_NEWTYPE(FIODGNAME, struct fiodgname_arg_c)
+#define FIODGNAME_64	_IOC_NEWTYPE(FIODGNAME, struct fiodgname_arg64)
 #endif
 
 #ifdef COMPAT_FREEBSD32
@@ -791,8 +792,8 @@ fiodgname_buf_get_ptr(void *fgnp)
 {
 	union {
 		struct fiodgname_arg	fgn;
-#ifdef COMPAT_CHERIABI
-		struct fiodgname_arg_c	fgn_c;
+#ifdef COMPAT_FREEBSD64
+		struct fiodgname_arg64	fgn64;
 #endif
 #ifdef COMPAT_FREEBSD32
 		struct fiodgname_arg32	fgn32;
@@ -800,16 +801,18 @@ fiodgname_buf_get_ptr(void *fgnp)
 	} *fgnup;
 
 	fgnup = fgnp;
-#ifdef COMPAT_CHERIABI
-	if (SV_CURPROC_FLAG(SV_CHERI))
-		return (fgnup->fgn_c.buf);
-#endif
 #ifdef COMPAT_FREEBSD32
 	if (SV_CURPROC_FLAG(SV_ILP32))
 		return (__USER_CAP((void *)(uintptr_t)fgnup->fgn32.buf,
 		    fgnup->fgn32.len));
 #endif
-	return (__USER_CAP(fgnup->fgn.buf, fgnup->fgn.len));
+#ifdef COMPAT_FREEBSD64
+	if (SV_CURPROC_FLAG(SV_LP64) && !SV_CURPROC_FLAG(SV_CHERI))
+		/* XXX-AM: fix for freebsd64 */
+		return (__USER_CAP((void *)(uintptr_t)fgnup->fgn64.buf,
+		    fgnup->fgn.len));
+#endif
+	return (fgnup->fgn.buf);
 }
 
 static int
